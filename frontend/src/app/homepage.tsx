@@ -245,9 +245,76 @@ export default function Home() {
               </div>
             )}
 
+            {/* Vision Simulation Viewer */}
+            {results.screenshots && (
+              <div className="bg-white rounded-lg shadow-lg p-8 mt-8">
+                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <Eye className="h-6 w-6" />
+                  Vision Impairment Simulation
+                </h3>
+                
+                {results.screenshots.simulations?.length > 0 ? (
+                  <>
+                    <div className="mb-6">
+                      <label htmlFor="vision-type" className="block text-sm font-medium text-gray-700 mb-2">
+                        Select Vision Type:
+                      </label>
+                      <select
+                        id="vision-type"
+                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
+                        defaultValue={results.screenshots.simulations[0]?.type}
+                        onChange={(e) => {
+                          const screenshots = document.querySelectorAll('.vision-simulation');
+                          screenshots.forEach(img => {
+                            if (img instanceof HTMLElement) {
+                              img.style.display = 'none';
+                            }
+                          });
+                          const selected = document.getElementById(`${e.target.value}-view`);
+                          if (selected instanceof HTMLElement) {
+                            selected.style.display = 'block';
+                          }
+                        }}
+                      >
+                        {results.screenshots.simulations.map((sim) => (
+                          <option key={sim.type} value={sim.type}>
+                            {sim.description}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="space-y-6">
+                      {results.screenshots.simulations.map((simulation, index) => (
+                        <div
+                          key={simulation.type}
+                          id={`${simulation.type}-view`}
+                          style={{ display: index === 0 ? 'block' : 'none' }}
+                        >
+                          <h4 className="text-lg font-semibold mb-2">{simulation.description}</h4>
+                          <div className="border rounded-lg overflow-hidden">
+                            {simulation.screenshot && (
+                              <img
+                                src={`data:image/png;base64,${simulation.screenshot}`}
+                                alt={`Website appearance with ${simulation.description}`}
+                                className="w-full"
+                                loading="lazy"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-gray-500">No vision simulations available</p>
+                )}
+              </div>
+            )}
+
             {/* AODA Guidance */}
             <div className="bg-green-50 border border-green-200 rounded-lg p-8">
-              <h3 className="text-2xl font-bold text-green-800 mb-4">🇨🇦 AODA Compliance Summary</h3>
+              <h3 className="text-2xl font-bold text-black-800 mb-4">🇨🇦 AODA Compliance Summary</h3>
               <div className="space-y-3 text-green-700">
                 <p><strong>Ontario Requirements:</strong> {results.aodaCompliance?.ontarioRequirements}</p>
                 <p><strong>Bilingual Note:</strong> {results.aodaCompliance?.bilingualNote}</p>
