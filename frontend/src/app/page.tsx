@@ -71,59 +71,7 @@ export default function Home() {
         PURPOSE: Analyze website accessibility and AODA compliance`}
       </div>
 
-      {/* API Documentation for LLMs - Always visible for programmatic access */}
-      <div className="bg-blue-50 border-b border-blue-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="mb-3">
-            <div className="flex items-center gap-2 text-blue-700 font-medium mb-2">
-              <span className="text-lg">🤖</span>
-              <span>For AI Assistants & LLMs: API Usage Instructions</span>
-            </div>
-            <div className="p-4 bg-white rounded-lg border border-blue-200">
-              <div className="prose prose-sm max-w-none">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">AccessLens Accessibility Analysis API</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Quick Start</h4>
-                    <p className="text-sm text-gray-600 mb-2">
-                      To analyze a website's accessibility, send a POST request to:
-                    </p>
-                    <code className="block bg-gray-100 text-gray-900 p-2 rounded text-sm font-mono">
-                      POST http://localhost:3001/analyze
-                    </code>
-                    <div className="mt-2">
-                      <p className="text-xs text-gray-500 mb-1">Request body:</p>
-                      <code className="block bg-gray-100 text-gray-900 p-2 rounded text-xs font-mono">
-                        {"{ \"url\": \"https://example.com\" }"}
-                      </code>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Complete Documentation</h4>
-                    <p className="text-sm text-gray-600 mb-2">
-                      For full API documentation, request/response formats, error handling, and examples:
-                    </p>
-                    <a 
-                      href="/llm.txt" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
-                    >
-                      📄 View llm.txt Documentation
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                    <p className="text-xs text-gray-500 mt-2">
-                      This file contains complete instructions for using the AccessLens API, including examples and best practices.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* API Error Alert */}
@@ -171,7 +119,7 @@ export default function Home() {
             <div className="max-w-2xl mx-auto">
               <AnalysisForm onAnalysisComplete={handleAnalysisComplete} />
             </div>
-
+            
             {/* Feature Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
               <div className="bg-white p-6 rounded-lg shadow border">
@@ -209,7 +157,6 @@ export default function Home() {
             </div>
           </div>
         )}
-
         {/* Analysis Results */}
         {analysisResults && (
           <AnalysisResults 
@@ -218,6 +165,63 @@ export default function Home() {
           />
         )}
       </main>
+
+      {/* API Documentation for LLMs */}
+      <section className="bg-blue-50 border-t border-blue-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center gap-2 text-blue-700 font-medium mb-2">
+              <span className="text-lg">🤖</span>
+              <span>For AI Assistants & LLMs: API Usage Instructions</span>
+            </div>
+          </div>
+          
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg border border-blue-200 p-6">
+              <div className="prose prose-sm max-w-none">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">AccessLens Accessibility Analysis API</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Quick Start</h4>
+                    <p className="text-sm text-gray-600 mb-2">
+                      To analyze a website's accessibility, send a POST request to:
+                    </p>
+                    <code className="block bg-gray-100 p-3 rounded text-sm font-mono text-black">
+                      POST http://localhost:3001/analyze
+                    </code>
+                    <div className="mt-3">
+                      <p className="text-xs text-gray-500 mb-1">Request body:</p>
+                      <code className="block bg-gray-100 p-3 rounded text-xs font-mono text-black">
+                        {"{ \"url\": \"https://example.com\" }"}
+                      </code>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Complete Documentation</h4>
+                    <p className="text-sm text-gray-600 mb-3">
+                      For full API documentation, request/response formats, error handling, and examples:
+                    </p>
+                    <a 
+                      href="/llm.txt" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition-colors"
+                    >
+                      📄 View llm.txt Documentation
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                    <p className="text-xs text-gray-500 mt-2">
+                      This file contains complete instructions for using the AccessLens API, including examples and best practices.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t mt-16">
