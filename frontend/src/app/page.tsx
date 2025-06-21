@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import AnalysisForm from '../components/AnalysisForm';
 import AnalysisResults from '../components/AnalysisResults';
-import QuickTest from '../components/QuickTest';
 import { useHealthCheck } from '../hooks/useApi';
 
 export default function Home() {
@@ -89,12 +88,12 @@ export default function Home() {
                     <p className="text-sm text-gray-600 mb-2">
                       To analyze a website's accessibility, send a POST request to:
                     </p>
-                    <code className="block bg-gray-100 p-2 rounded text-sm font-mono">
+                    <code className="block bg-gray-100 text-gray-900 p-2 rounded text-sm font-mono">
                       POST http://localhost:3001/analyze
                     </code>
                     <div className="mt-2">
                       <p className="text-xs text-gray-500 mb-1">Request body:</p>
-                      <code className="block bg-gray-100 p-2 rounded text-xs font-mono">
+                      <code className="block bg-gray-100 text-gray-900 p-2 rounded text-xs font-mono">
                         {"{ \"url\": \"https://example.com\" }"}
                       </code>
                     </div>
@@ -171,11 +170,6 @@ export default function Home() {
             {/* Analysis Form */}
             <div className="max-w-2xl mx-auto">
               <AnalysisForm onAnalysisComplete={handleAnalysisComplete} />
-            </div>
-
-            {/* Quick Test Component for Development */}
-            <div className="max-w-2xl mx-auto">
-              <QuickTest />
             </div>
 
             {/* Feature Overview */}
