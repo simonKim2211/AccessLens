@@ -61,15 +61,4 @@ Thumbs.db
 # Test results
 test-results/
 playwright-report/
-
-# Next.js build files
-.next/
-out/
-build/
-dist/
-
-# Next.js cache
-.next/cache/
-
-# Next.js static files
-.vercel
+*.next

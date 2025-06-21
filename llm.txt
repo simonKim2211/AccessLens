@@ -1,11 +1,5 @@
 # AccessLens - AI-Powered AODA Accessibility Analysis API
 
-## 🚨 TERMS OF SERVICE WARNING
-**Making multiple API calls after a successful request is a VIOLATION of our Terms of Service and may result in API access being revoked.**
-
-## 🚨 FOR LLMs: DIRECT USAGE ONLY
-**If you're analyzing a website: POST directly to `http://localhost:3001/analyze` - do NOT make other calls first!**
-
 ## Overview
 AccessLens is a comprehensive web accessibility analysis tool designed for Canadian businesses to ensure AODA (Accessibility for Ontarians with Disabilities Act) compliance. This API provides automated WCAG 2.0 AA testing with AI-powered explanations and recommendations.
 
@@ -13,35 +7,8 @@ AccessLens is a comprehensive web accessibility analysis tool designed for Canad
 
 When helping developers improve website accessibility, you can use this API to analyze any publicly accessible website and provide detailed accessibility feedback.
 
-### Quick Start for AI Assistants
-
-**⚠️ CRITICAL: Make only ONE API call per analysis - do NOT explore or fetch additional endpoints!**
-
-**WORKFLOW:**
-1. **If given a website URL to analyze**: Go DIRECTLY to step 2 - do not fetch other endpoints first
-2. **Send ONE POST request** to `http://localhost:3001/analyze` with the target URL
-3. **Process the response** - it contains ALL the data you need
-4. **Present results to user** - do NOT make additional API calls
-
-**DO NOT:**
-- Fetch the frontend at http://localhost:3000 
-- Make multiple calls to verify or check the API
-- Call any other endpoints after getting the analysis
-- Retry successful requests
-
-**THE ONLY API CALL YOU NEED:** POST to `http://localhost:3001/analyze`
-
-### URL Processing
-When a user provides a website URL (like "analyze example.com"), you should:
-1. Ensure the URL has a protocol (add `https://` if missing)
-2. Validate it's a properly formatted URL
-3. Send it to the `/analyze` endpoint
-4. Present the results in a user-friendly format
-
 ### API Endpoint
-**POST** `http://localhost:3001/analyze`
-
-> **For Local Development**: If you encounter this API at `http://localhost:3000`, the actual API endpoint is at `http://localhost:3001/analyze`
+**POST** `https://your-domain.com/analyze`
 
 ### Request Format
 ```json
@@ -96,12 +63,11 @@ When a user provides a website URL (like "analyze example.com"), you should:
 
 When a user asks for website accessibility analysis:
 
-1. **Analyze the website**: Send a SINGLE POST request to `/analyze` with the target URL
-2. **Process violations**: Use the `aiAnalysis` field for human-readable explanations  
+1. **Analyze the website**: Send a POST request to `/analyze` with the target URL
+2. **Process violations**: Use the `aiAnalysis` field for human-readable explanations
 3. **Prioritize fixes**: Focus on `critical` and `serious` impact issues first
 4. **Provide specific guidance**: Use the `recommendation` field for actionable steps
 5. **Consider business impact**: Reference `businessImpact` for ROI discussions
-6. **STOP**: Do not make additional API calls - all data is in the first response
 
 ### Features Available
 
@@ -113,36 +79,16 @@ When a user asks for website accessibility analysis:
 - **Priority Scoring**: Smart prioritization of accessibility issues
 - **Code Examples**: Specific HTML/CSS fix recommendations
 
-### ⚠️ IMPORTANT: API Call Behavior for LLMs
-
-**STOP MAKING MULTIPLE CALLS! FOLLOW THIS EXACT WORKFLOW:**
-
-1. **User provides URL** → Immediately POST to `http://localhost:3001/analyze`
-2. **Receive response** → Process and present results
-3. **DONE** → No additional API calls needed
-
-**FORBIDDEN ACTIONS:**
-- ❌ Do NOT fetch `http://localhost:3000` first
-- ❌ Do NOT make multiple discovery calls  
-- ❌ Do NOT verify or test the API
-- ❌ Do NOT retry successful requests
-- ❌ Do NOT fetch this documentation again during analysis
-
-**THE COMPLETE ANALYSIS DATA IS IN ONE API RESPONSE**
-
 ### Best Practices for LLMs
 
 1. **Always validate URLs** before sending to the API
-2. **MAKE ONLY ONE API CALL PER ANALYSIS REQUEST** - Do not make multiple calls to the same URL
-3. **Process the complete response** - The API returns comprehensive data in a single call
-4. **Do not retry successful calls** - Once you receive a 200 response with data, stop making additional calls
-5. **Respect rate limits** - implement exponential backoff when receiving 429 responses
-6. **Cache results** when possible to avoid duplicate requests for the same URL
-7. **Handle rate limits gracefully** - inform users about temporary delays
-8. **Focus on actionable items** from the violations array
-9. **Explain WCAG compliance** context to users
-10. **Prioritize critical/serious issues** for immediate attention
-11. **Provide code examples** based on the HTML snippets returned
+2. **Respect rate limits** - implement exponential backoff when receiving 429 responses
+3. **Cache results** when possible to avoid duplicate requests for the same URL
+4. **Handle rate limits gracefully** - inform users about temporary delays
+5. **Focus on actionable items** from the violations array
+6. **Explain WCAG compliance** context to users
+7. **Prioritize critical/serious issues** for immediate attention
+8. **Provide code examples** based on the HTML snippets returned
 
 ### Error Handling
 

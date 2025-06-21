@@ -9,6 +9,7 @@ const rateLimit = require('express-rate-limit');
 const logger = require('./utils/logger');
 const GeminiService = require('./utils/geminiService');
 const AccessibilityAnalyzer = require('./utils/accessibilityAnalyzer');
+const VisionSimulator = require('./utils/visionSimulator');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 3001;
 // Initialize services
 const geminiService = new GeminiService();
 const accessibilityAnalyzer = new AccessibilityAnalyzer();
+const visionSimulator = new VisionSimulator();
 
 // Rate limiting configuration
 const createRateLimit = (windowMs, max, message, skipSuccessfulRequests = false) => {
@@ -160,6 +162,54 @@ app.post('/analyze', analyzeLimiter, heavyAnalyzeLimiter, async (req, res) => {
   }
 });
 
+// Vision simulation endpoint
+app.post('/simulate-vision', analyzeLimiter, async (req, res) => {
+  const { url, visionTypes } = req.body;
+  
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required' });
+  }
+
+  // Validate URL format
+  try {
+    new URL(url);
+  } catch (error) {
+    return res.status(400).json({ error: 'Invalid URL format' });
+  }
+  
+  try {
+    logger.info(`Starting vision simulation for URL: ${url}`);
+    
+    // Generate vision simulations
+    const report = await visionSimulator.generateVisionReport(url, visionTypes);
+    
+    logger.info(`Vision simulation completed for ${url}. Generated ${report.simulations.length} simulations.`);
+    res.json(report);
+    
+  } catch (error) {
+    logger.error('Vision simulation error:', error);
+    res.status(500).json({
+      error: 'Failed to generate vision simulations',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// Get available vision types
+app.get('/vision-types', (req, res) => {
+  try {
+    const visionTypes = visionSimulator.getAvailableVisionTypes();
+    res.json({
+      visionTypes,
+      total: visionTypes.length,
+      description: 'Available vision impairment simulations'
+    });
+  } catch (error) {
+    logger.error('Error getting vision types:', error);
+    res.status(500).json({ error: 'Failed to get vision types' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
@@ -177,6 +227,8 @@ app.get('/', (req, res) => {
     description: 'Web-based accessibility checker for Canadian businesses',
     endpoints: {
       'POST /analyze': 'Analyze a website for AODA/WCAG compliance',
+      'POST /simulate-vision': 'Generate visual impairment simulations for a website',
+      'GET /vision-types': 'Get available vision impairment types',
       'GET /health': 'Health check'
     },
     compliance: 'WCAG 2.0 AA / AODA (Accessibility for Ontarians with Disabilities Act)'

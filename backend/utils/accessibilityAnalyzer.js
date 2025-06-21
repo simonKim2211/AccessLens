@@ -108,7 +108,7 @@ class AccessibilityAnalyzer {
       await page.addStyleTag({
         content: `
           html {
-            filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="deuteranopia"><feColorMatrix values="0.43 0.72 -.15 0 0 0.34 0.57 0.09 0 0 -.02 0.03 1.00 0 0 0 0 0 1 0"/></filter></defs></svg>#deuteranopia') !important;
+            filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="deuteranopia"><feColorMatrix values="0.625 0.375 0 0 0 0.7 0.3 0 0 0 0 0.3 0.7 0 0 0 0 0 1 0"/></filter></defs></svg>#deuteranopia') !important;
           }
         `
       });
@@ -119,10 +119,19 @@ class AccessibilityAnalyzer {
       });
       
       // Remove color-blind filter and add blur for low vision simulation
+      await page.evaluate(() => {
+        const existingStyles = document.querySelectorAll('style');
+        existingStyles.forEach(style => {
+          if (style.textContent && style.textContent.includes('filter:')) {
+            style.remove();
+          }
+        });
+      });
+      
       await page.addStyleTag({
         content: `
           html {
-            filter: blur(3px) contrast(0.7) !important;
+            filter: blur(2px) contrast(0.6) brightness(0.8) !important;
           }
         `
       });
@@ -134,13 +143,31 @@ class AccessibilityAnalyzer {
       
       return {
         original: original.toString('base64'),
-        colorBlind: colorBlind.toString('base64'),
-        blurryVision: blurryVision.toString('base64')
+        simulations: [
+          {
+            type: 'normal',
+            description: 'Normal Vision',
+            screenshot: original.toString('base64')
+          },
+          {
+            type: 'deuteranopia',
+            description: 'Green-blind Color Vision Deficiency',
+            screenshot: colorBlind.toString('base64')
+          },
+          {
+            type: 'lowVision',
+            description: 'Low Vision (Blurred)',
+            screenshot: blurryVision.toString('base64')
+          }
+        ]
       };
       
     } catch (error) {
       logger.error('Screenshot capture failed:', error);
-      throw error;
+      return {
+        original: null,
+        simulations: []
+      };
     }
   }
 
