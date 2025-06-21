@@ -35,13 +35,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      
-      // Save results to sessionStorage for the analysis page
-      sessionStorage.setItem('analysisResults', JSON.stringify(data));
-      
-      // Redirect to analysis page
-      window.location.href = '/analysis';
-      
+      setResults(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Analysis failed');
     } finally {
