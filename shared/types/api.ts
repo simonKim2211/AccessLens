@@ -17,3 +17,6 @@ export interface HealthCheck {
   version: string;
   timestamp: string;
 }
+
+// Re-export types from analysis for convenience
+export type { AnalysisRequest, AnalysisResponse } from './analysis';
