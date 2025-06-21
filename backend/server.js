@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 // Import utilities
 const logger = require('./utils/logger');
@@ -16,9 +17,49 @@ const PORT = process.env.PORT || 3001;
 const geminiService = new GeminiService();
 const accessibilityAnalyzer = new AccessibilityAnalyzer();
 
+// Rate limiting configuration
+const createRateLimit = (windowMs, max, message, skipSuccessfulRequests = false) => {
+  return rateLimit({
+    windowMs,
+    max,
+    message: { error: message },
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    skipSuccessfulRequests,
+    handler: (req, res) => {
+      logger.warn(`Rate limit exceeded for IP: ${req.ip} on ${req.path}`);
+      res.status(429).json({ error: message });
+    }
+  });
+};
+
+// Different rate limits for different endpoints
+const generalLimiter = createRateLimit(
+  15 * 60 * 1000, // 15 minutes
+  100, // limit each IP to 100 requests per windowMs
+  'Too many requests from this IP, please try again later.'
+);
+
+const analyzeLimiter = createRateLimit(
+  15 * 60 * 1000, // 15 minutes
+  10, // limit each IP to 10 analysis requests per 15 minutes
+  'Too many analysis requests from this IP. Please wait before requesting more accessibility analyses.',
+  true // don't count successful requests towards the limit
+);
+
+const heavyAnalyzeLimiter = createRateLimit(
+  60 * 60 * 1000, // 1 hour
+  25, // limit each IP to 25 analysis requests per hour
+  'Hourly analysis limit exceeded. This helps us maintain service quality for all users.'
+);
+
 // Middleware
 app.use(helmet());
 app.use(cors());
+
+// Apply rate limiting
+app.use(generalLimiter); // Apply to all requests
+
 app.use(morgan('combined', {
   stream: { write: message => logger.info(message.trim()) }
 }));
@@ -26,7 +67,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Main accessibility analysis endpoint
-app.post('/analyze', async (req, res) => {
+app.post('/analyze', analyzeLimiter, heavyAnalyzeLimiter, async (req, res) => {
   const { url } = req.body;
   
   if (!url) {

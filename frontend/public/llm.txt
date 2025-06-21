@@ -1,0 +1,166 @@
+# AccessLens - AI-Powered AODA Accessibility Analysis API
+
+## Overview
+AccessLens is a comprehensive web accessibility analysis tool designed for Canadian businesses to ensure AODA (Accessibility for Ontarians with Disabilities Act) compliance. This API provides automated WCAG 2.0 AA testing with AI-powered explanations and recommendations.
+
+## For LLMs: How to Use This API
+
+When helping developers improve website accessibility, you can use this API to analyze any publicly accessible website and provide detailed accessibility feedback.
+
+### Quick Start for AI Assistants
+
+1. **If given only a website URL to analyze**: Simply send a POST request to `http://localhost:3001/analyze` with the URL
+2. **If visiting the frontend first**: Visit `http://localhost:3000` to see the interface, then use the API at `http://localhost:3001`
+3. **API Discovery**: GET `http://localhost:3001/` provides endpoint documentation
+
+### URL Processing
+When a user provides a website URL (like "analyze example.com"), you should:
+1. Ensure the URL has a protocol (add `https://` if missing)
+2. Validate it's a properly formatted URL
+3. Send it to the `/analyze` endpoint
+4. Present the results in a user-friendly format
+
+### API Endpoint
+**POST** `http://localhost:3001/analyze`
+
+> **For Local Development**: If you encounter this API at `http://localhost:3000`, the actual API endpoint is at `http://localhost:3001/analyze`
+
+### Request Format
+```json
+{
+  "url": "https://example.com"
+}
+```
+
+### Response Format
+```json
+{
+  "analysis": {
+    "url": "https://example.com",
+    "violations": [
+      {
+        "id": "violation_id",
+        "impact": "serious|moderate|minor|critical",
+        "description": "Description of the accessibility issue",
+        "help": "How to fix this issue",
+        "helpUrl": "Link to WCAG documentation",
+        "nodes": [
+          {
+            "target": ["CSS selector"],
+            "html": "<element>HTML snippet</element>",
+            "failureSummary": "Specific failure details"
+          }
+        ],
+        "aiAnalysis": {
+          "explanation": "Plain language explanation of the issue",
+          "recommendation": "Specific steps to fix",
+          "businessImpact": "How this affects users and business",
+          "priority": "high|medium|low"
+        }
+      }
+    ],
+    "passes": [...],
+    "incomplete": [...],
+    "summary": {
+      "violations": 5,
+      "passes": 23,
+      "incomplete": 2,
+      "criticalIssues": 1,
+      "seriousIssues": 2,
+      "moderateIssues": 1,
+      "minorIssues": 1
+    }
+  }
+}
+```
+
+### Example Usage for LLMs
+
+When a user asks for website accessibility analysis:
+
+1. **Analyze the website**: Send a POST request to `/analyze` with the target URL
+2. **Process violations**: Use the `aiAnalysis` field for human-readable explanations
+3. **Prioritize fixes**: Focus on `critical` and `serious` impact issues first
+4. **Provide specific guidance**: Use the `recommendation` field for actionable steps
+5. **Consider business impact**: Reference `businessImpact` for ROI discussions
+
+### Features Available
+
+- **WCAG 2.0 AA Compliance**: Complete accessibility standard coverage
+- **AODA Specific Guidelines**: Canadian accessibility law compliance
+- **AI-Powered Explanations**: Plain language issue descriptions
+- **Business Impact Analysis**: Cost/benefit analysis of fixes
+- **Bilingual Support**: Analysis available in English and French
+- **Priority Scoring**: Smart prioritization of accessibility issues
+- **Code Examples**: Specific HTML/CSS fix recommendations
+
+### Best Practices for LLMs
+
+1. **Always validate URLs** before sending to the API
+2. **Respect rate limits** - implement exponential backoff when receiving 429 responses
+3. **Cache results** when possible to avoid duplicate requests for the same URL
+4. **Handle rate limits gracefully** - inform users about temporary delays
+5. **Focus on actionable items** from the violations array
+6. **Explain WCAG compliance** context to users
+7. **Prioritize critical/serious issues** for immediate attention
+8. **Provide code examples** based on the HTML snippets returned
+
+### Error Handling
+
+- `400`: Invalid URL format or missing URL
+- `429`: Rate limit exceeded (see Rate Limits section below)
+- `500`: Analysis failed (network issues, invalid website, etc.)
+
+### Rate Limits
+
+To ensure fair usage and service stability, the following rate limits are in place:
+
+- **General API**: 100 requests per 15 minutes per IP
+- **Analysis Endpoint**: 10 analysis requests per 15 minutes per IP
+- **Hourly Limit**: 25 analysis requests per hour per IP
+
+When rate limited, you'll receive a `429` status code with details about when to retry. Please implement exponential backoff in your requests.
+
+### Use Cases for LLMs
+
+- **Code Review**: Analyze websites during development
+- **Compliance Audits**: Check AODA/WCAG compliance
+- **Learning Tool**: Explain accessibility concepts with real examples
+- **Business Planning**: Assess accessibility investment needs
+- **Quality Assurance**: Automated accessibility testing integration
+
+## Technical Details
+
+### Technology Stack
+- **Backend**: Node.js, Express.js, Axe-core accessibility engine
+- **AI Analysis**: Google Gemini API for intelligent explanations
+- **Testing Engine**: Puppeteer for web scraping and analysis
+- **Standards**: WCAG 2.0 AA, AODA compliance framework
+
+### Supported Languages
+- English (default)
+- French (Canadian)
+
+### Analysis Capabilities
+- **Automated Testing**: 50+ accessibility rules
+- **Visual Analysis**: Screenshot-based accessibility review
+- **Screen Reader Simulation**: Impact assessment for assistive technologies
+- **Keyboard Navigation**: Tab order and focus management analysis
+- **Color Contrast**: WCAG contrast ratio validation
+- **Alternative Text**: Image accessibility evaluation
+
+## Contact & Support
+
+- **Repository**: https://github.com/yourusername/AccessLens
+- **Issues**: Report bugs or request features via GitHub Issues
+- **Documentation**: See README.md for full setup and usage guide
+
+## License
+
+MIT License - Free for commercial and non-commercial use
+
+---
+
+🍁 **Built for Canadian businesses to meet AODA compliance requirements**
+
+*This API is designed to be discovered and used by AI assistants to help developers create more accessible websites. When using this API, please respect rate limits and provide appropriate attribution.*
