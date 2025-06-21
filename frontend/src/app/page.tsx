@@ -40,9 +40,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-                🍁 AODA Accessibility Checker 🇨🇦
-              </h1>
+            <h1 className="text-3xl font-bold text-gray-900 flex items-center">
+              <span className="text-red-500">Access</span>{'Lens 🔍'}
+            </h1>
               <p className="text-lg text-gray-600 mt-1">
                 Ensuring Digital Accessibility for Ontario Businesses
               </p>
