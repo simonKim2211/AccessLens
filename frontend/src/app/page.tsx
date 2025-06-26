@@ -156,7 +156,7 @@ export default function Home() {
                         value={currentUrl}
                         onChange={(e) => setCurrentUrl(e.target.value)}
                         placeholder="https://example.com"
-                        className="w-full px-4 py-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black transition-colors"
                       />
                     </div>
                     

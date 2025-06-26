@@ -75,7 +75,7 @@ export default function AnalysisResults({ results, onNewAnalysis }: AnalysisResu
 
       {/* Compliance Overview */}
       <div className="bg-white p-6 rounded-lg shadow border">
-        <h3 className="text-xl font-semibold mb-4">🇨🇦 AODA Compliance Status</h3>
+        <h3 className="text-xl font-semibold mb-4 text-black">🇨🇦 AODA Compliance Status</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <div className={`p-4 rounded-lg border-2 ${
@@ -140,7 +140,7 @@ export default function AnalysisResults({ results, onNewAnalysis }: AnalysisResu
 
       {/* Summary Stats */}
       <div className="bg-white p-6 rounded-lg shadow border">
-        <h3 className="text-xl font-semibold mb-4">📈 Violation Summary</h3>
+        <h3 className="text-xl font-semibold mb-4 text-black">📈 Violation Summary</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div className="text-center">
             <div className="text-2xl font-bold text-gray-900">{summary.totalViolations}</div>
@@ -167,23 +167,23 @@ export default function AnalysisResults({ results, onNewAnalysis }: AnalysisResu
 
       {/* Page Information */}
       <div className="bg-white p-6 rounded-lg shadow border">
-        <h3 className="text-xl font-semibold mb-4">📄 Page Information</h3>
+        <h3 className="text-xl font-semibold mb-4 text-black">📄 Page Information</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <div className="text-sm text-gray-600">Page Title</div>
-            <div className="font-medium">{pageInfo.title || 'No title'}</div>
+            <div className="font-medium text-gray-700">{pageInfo.title || 'No title'}</div>
           </div>
           <div>
             <div className="text-sm text-gray-600">Language</div>
-            <div className="font-medium">{pageInfo.lang || 'Not specified'}</div>
+            <div className="font-medium text-gray-700">{pageInfo.lang || 'Not specified'}</div>
           </div>
           <div>
             <div className="text-sm text-gray-600">Images</div>
-            <div className="font-medium">{pageInfo.imageCount}</div>
+            <div className="font-medium text-gray-700">{pageInfo.imageCount}</div>
           </div>
           <div>
             <div className="text-sm text-gray-600">Links</div>
-            <div className="font-medium">{pageInfo.linkCount}</div>
+            <div className="font-medium text-gray-700">{pageInfo.linkCount}</div>
           </div>
         </div>
       </div>
@@ -191,7 +191,7 @@ export default function AnalysisResults({ results, onNewAnalysis }: AnalysisResu
       {/* Violations Details */}
       {violations && violations.length > 0 && (
         <div className="bg-white p-6 rounded-lg shadow border">
-          <h3 className="text-xl font-semibold mb-4">🔍 Detailed Violations</h3>
+          <h3 className="text-xl font-semibold mb-4 text-black">🔍 Detailed Violations</h3>
           <div className="space-y-4">
             {violations.map((violation: any, index: number) => (
               <div key={index} className="border border-gray-200 rounded-lg p-4">

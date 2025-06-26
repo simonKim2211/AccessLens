@@ -294,7 +294,8 @@ export default function AnalysisPage() {
                     </label>
                     <select
                       id="vision-type"
-                      className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
+                      className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm text-black bg-white rounded-md"
+                      style={{ color: 'black' }}
                       defaultValue={results.screenshots.simulations[0]?.type}
                       onChange={(e) => {
                         const screenshots = document.querySelectorAll('.vision-simulation');
@@ -310,7 +311,7 @@ export default function AnalysisPage() {
                       }}
                     >
                       {results.screenshots.simulations.map((sim) => (
-                        <option key={sim.type} value={sim.type}>
+                        <option key={sim.type} value={sim.type} style={{ color: 'black' }}>
                           {sim.description}
                         </option>
                       ))}
@@ -325,7 +326,7 @@ export default function AnalysisPage() {
                         className="vision-simulation"
                         style={{ display: index === 0 ? 'block' : 'none' }}
                       >
-                        <h4 className="text-lg font-semibold mb-2">{simulation.description}</h4>
+                        <h4 className="text-lg font-semibold mb-2 text-black">{simulation.description}</h4>
                         <div className="border rounded-lg overflow-hidden">
                           {simulation.screenshot && (
                             <img

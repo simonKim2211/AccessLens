@@ -65,7 +65,8 @@ export default function AnalysisForm({ onAnalysisComplete }: AnalysisFormProps) 
             value={url}
             onChange={handleUrlChange}
             placeholder="https://example.com"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-black bg-white"
+            style={{ color: 'black' }}
             disabled={loading}
             required
           />

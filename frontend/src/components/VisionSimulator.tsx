@@ -189,7 +189,7 @@ export default function VisionSimulator({ url, onClose }: VisionSimulatorProps) 
         <div className="space-y-6">
           {/* Summary */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-semibold mb-2">Simulation Summary</h4>
+            <h4 className="font-semibold mb-2 text-black">Simulation Summary</h4>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-blue-800">
@@ -221,10 +221,11 @@ export default function VisionSimulator({ url, onClose }: VisionSimulatorProps) 
               id="vision-select"
               value={selectedVision}
               onChange={(e) => setSelectedVision(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black bg-white"
+              style={{ color: 'black' }}
             >
               {report.simulations.map((simulation) => (
-                <option key={simulation.type} value={simulation.type}>
+                <option key={simulation.type} value={simulation.type} style={{ color: 'black' }}>
                   {simulation.name} - {simulation.description}
                 </option>
               ))}
@@ -237,7 +238,7 @@ export default function VisionSimulator({ url, onClose }: VisionSimulatorProps) 
               <div className="bg-gray-50 p-4 border-b">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-lg">
+                    <h4 className="font-semibold text-lg text-black">
                       {getCurrentSimulation()?.name}
                     </h4>
                     <p className="text-black">
@@ -300,18 +301,18 @@ export default function VisionSimulator({ url, onClose }: VisionSimulatorProps) 
           {/* Recommendations */}
           {report.recommendations && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h4 className="font-semibold text-green-900 mb-4">
+              <h4 className="font-semibold text-black mb-4">
                 Accessibility Recommendations
               </h4>
               <div className="space-y-4">
                 {report.recommendations.map((category, index) => (
                   <div key={index}>
-                    <h5 className="font-medium text-green-800 mb-2">
+                    <h5 className="font-medium text-gray-800 mb-2">
                       {category.category}
                     </h5>
                     <ul className="list-disc list-inside space-y-1">
                       {category.recommendations.map((rec, recIndex) => (
-                        <li key={recIndex} className="text-green-700 text-sm">
+                        <li key={recIndex} className="text-gray-700 text-sm">
                           {rec}
                         </li>
                       ))}
